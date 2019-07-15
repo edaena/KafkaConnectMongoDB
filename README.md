@@ -12,9 +12,9 @@ Overview of the components:
 ## Requirements
 For this example you'll need a Kubernetes Cluster and a MongoDB cluster. 
 #### Kubernetes Cluster
-This example has been tested on a Kubernetes Cluster on Azure (AKS). Follow instructions on how to create an AKS cluster [here]([https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough)).
+This example has been tested on a Kubernetes Cluster on Azure (AKS). Follow instructions on how to create an AKS cluster [here](https://docs.microsoft.com/en-us/azure/aks/).
 
-You can also setup a cluster on other cloud providers like [AWS]([https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough)) or [Google Cloud]([https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster)).
+You can also setup a cluster on other cloud providers like AWS or Google Cloud.
 
 #### MongoDB
 Create a database on MongoDB by following the instructions [here]([https://docs.mongodb.com/manual/tutorial/atlas-free-tier-setup/#create-free-tier-manual](https://docs.mongodb.com/manual/tutorial/atlas-free-tier-setup/#create-free-tier-manual)). You can use the free tier and choose your preferred cloud provider.
@@ -23,7 +23,7 @@ Once you have created a cluster, you'll need to create:
 - A database
 - A collection
 
-For the above, follow the [G]etting Started](https://docs.atlas.mongodb.com/getting-started/) instructions.
+For the above, follow the [Getting Started](https://docs.atlas.mongodb.com/getting-started/) instructions.
 
 ##### MongoDB Network Access
 Enable all network access by going to. The **Network Access** Tab, click the Add IP Address button and select all. This should populate `0.0.0.0` in the allowed IP addresses table.
@@ -54,10 +54,10 @@ Follow these [instructions](https://strimzi.io/docs/latest/#deploying-cluster-op
 For Kafka and its related resources we are using the setup from the [cnadolny/azure-kafka-kubernetes](https://github.com/cnadolny/azure-kafka-kubernetes/tree/master/kafka-operator-strimzi) repository.
 
 From that repository download these files:
-- simple-kafka.yaml: deploys a Kafka cluster that listens on both the plaintext and tls listeners
-- kafkaclient.yaml: kafka client will be used to create sample data
-- kafka-topics.yaml: sample kafka topics `test` and `test-one-rep`
-- kafka-users.yaml: sample kafka user
+- `simple-kafka.yaml`: deploys a Kafka cluster that listens on both the plaintext and tls listeners
+- `kafkaclient.yaml`: kafka client will be used to create sample data
+- `kafka-topics.yaml`: sample kafka topics `test` and `test-one-rep`
+- `kafka-users.yaml`: sample kafka user
 
 All the above files are a starting point. You can change the configuration based on your needs.
 
@@ -74,7 +74,7 @@ kubectl create -n kafka -f kafkaclient.yaml
 ```
 
 ## MongoDB Connector
-For this example, the [edsa14/mongo-kafka-connect](edsa14/mongo-kafka-connect:v2) docker image containing the MongoDB Connector was created. For reference, the Dockerfile used to creat this image is included in the `examples` directory of this repository.
+For this example, the [edsa14/mongo-kafka-connect](https://hub.docker.com/r/edsa14/mongo-kafka-connect) docker image containing the MongoDB Connector was created. For reference, the Dockerfile used to creat this image is included in the `examples` directory of this repository.
 
 This examples uses the [mongodb/mongo-kafka](https://www.confluent.io/hub/mongodb/kafka-connect-mongodb) connector.
 
