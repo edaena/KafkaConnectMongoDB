@@ -35,11 +35,11 @@ There are several ways to deploy Kafka on Kubernetes. One is by using a Kuberent
 
 Familiarize yourself with the Strimzi Operator by reading the [Overview of Strimzi](https://strimzi.io/docs/latest/#overview-str). There are several ways of installing Strimzin. For this example we used the yaml files. 
 
-Follow the instructions to [download Strimzi](https://strimzi.io/docs/latest/#downloads-str) in the cluster.
+Follow the instructions to [download Strimzi](https://strimzi.io/docs/latest/#downloads-str). This will download a set of yaml files.
 
 
 ### Install the Strimzi Cluster Operator
-The Strimzi Cluster Operator is what we will use to deploy and manage Kafka.
+The [Strimzi Cluster Operator](https://strimzi.io/docs/master/#cluster-operator-str) is what we will use to deploy and manage Kafka.
 After you downloaded Strimzi, deploy the Strimzi Cluster Operator to your cluster. We recommend deploying the operator under the `kafka` namespace. 
 
 Create the kafka namespace:
