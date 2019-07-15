@@ -11,12 +11,12 @@ Overview of the components:
 
 ## Requirements
 For this example you'll need a Kubernetes Cluster and a MongoDB cluster. 
-### Kubernetes Cluster
+#### Kubernetes Cluster
 This example has been tested on a Kubernetes Cluster on Azure (AKS). Follow instructions on how to create an AKS cluster [here]([https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough)).
 
 You can also setup a cluster on other cloud providers like [AWS]([https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough)) or [Google Cloud]([https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster)).
 
-### MongoDB
+#### MongoDB
 Create a database on MongoDB by following the instructions [here]([https://docs.mongodb.com/manual/tutorial/atlas-free-tier-setup/#create-free-tier-manual](https://docs.mongodb.com/manual/tutorial/atlas-free-tier-setup/#create-free-tier-manual)). You can use the free tier and choose your preferred cloud provider.
 
 Once you have created a cluster, you'll need to create:
@@ -25,7 +25,7 @@ Once you have created a cluster, you'll need to create:
 
 For the above, follow the [G]etting Started](https://docs.atlas.mongodb.com/getting-started/) instructions.
 
-#### MongoDB Network Access
+##### MongoDB Network Access
 Enable all network access by going to. The **Network Access** Tab, click the Add IP Address button and select all. This should populate `0.0.0.0` in the allowed IP addresses table.
 
 <img src="images/mongodb-network.png?sanitize=true">
@@ -43,7 +43,9 @@ The Strimzi Cluster Operator is what we will use to deploy and manage Kafka.
 After you downloaded Strimzi, deploy the Strimzi Cluster Operator to your cluster. We recommend deploying the operator under the `kafka` namespace. 
 
 Create the kafka namespace:
-`kubectl create namespace kafka`
+```
+kubectl create namespace kafka
+```
 
 Follow these [instructions](https://strimzi.io/docs/latest/#deploying-cluster-operator-kubernetes-str) to deploy the cluster operator.
 
@@ -65,9 +67,11 @@ Deploy Kafka:
 Wait for the resource to appear by checking the pod is running: `kubectl get pods -n kafka`.
 
 Deploy the remaining resources:
-`kubectl create -n kafka -f kafka-topics.yaml`
-`kubectl create -n kafka -f kafka-users.yaml`
-`kubectl create -n kafka -f kafkaclient.yaml`
+```
+kubectl create -n kafka -f kafka-topics.yaml
+kubectl create -n kafka -f kafka-users.yaml
+kubectl create -n kafka -f kafkaclient.yaml
+```
 
 ## MongoDB Connector
 For this example, the [edsa14/mongo-kafka-connect](edsa14/mongo-kafka-connect:v2) docker image containing the MongoDB Connector was created. For reference, the Dockerfile used to creat this image is included in the `examples` directory of this repository.
@@ -142,32 +146,41 @@ You **must** change at least the following variables:
 
 | Variable  | Description | Example |
 | ------------- | ------------- | ------------- |
-| name | the name of the connector | my-mongodb-connector |
+| name | the name of the connector | `my-mongodb-connector` |
 | connection.uri | the connection string for mongodb | `mongodb+srv://<username>:<password>@<cluster>/<database>`|
-| database | the name of your database on MongoDB | kafka-db |
-| collection | the name of your collection in MongoDB | kafka |
+| database | the name of your database on MongoDB | `kafka-db` |
+| collection | the name of your collection in MongoDB | `kafka` |
 
 More information on the settings can be found on the [MongoDB Kafka sink connector guide](https://github.com/mongodb/mongo-kafka/blob/master/docs/sink.md).
 
 
 After updating the settings, create the connector:
-`curl -H 'Content-Type: application/json' -X POST -d @/home/KafkaConnectMongoDB/create-mongodb-connector.json http://localhost:8083/connectors `
+```
+curl -H 'Content-Type: application/json' -X POST -d @/home/KafkaConnectMongoDB/create-mongodb-connector.json http://localhost:8083/connectors
+```
 
 Verify the connector is created on `localhost:8083/connectors`.
 
-**Update an existing connector:**
+##### Update an existing connector
+
 In `examples/update-mongodb-connector.json` you can find sample settings to update the connector. In this case we changed the `topic` from `test` to `blob-test`. Make sure other variables like: `connection.uri`, `database`, `collection`, and others from the `examples/create-mongodb-connector.json` are also in this file.
 
 To update the connector:
-`curl -H 'Content-Type: application/json' -X PUT -d @/home/KafkaConnectMongoDB/update-mongodb-connector.json http://localhost:8083/connectors/my-mongodb-connector/config`
+```
+curl -H 'Content-Type: application/json' -X PUT -d @/home/KafkaConnectMongoDB/update-mongodb-connector.json http://localhost:8083/connectors/my-mongodb-connector/config
+```
 
 You can swap `my-mongodb-connector` in the URL with the corresponding name of the connector you created.
 
 To verify the changes were applied:
-`localhost:8083/connectors/my-mongodb-connector/config`
+```
+localhost:8083/connectors/my-mongodb-connector/config
+```
 
 To check the status of the connector:
-`localhost:8083/connectors/my-mongodb-connector/status`
+```
+localhost:8083/connectors/my-mongodb-connector/status
+```
 
 ## Add sample data to Kafka
 Sample data can be added to Kafka via the Kafka Client.
@@ -178,15 +191,19 @@ Sample Message:
 ```
 
 To add a message in the `test` topic:
-`kubectl -n kafka exec -ti kafkaclient-0 -- bin/kafka-console-producer.sh --broker-list my-cluster-kafka-brokers.kafka:9092 --topic test`
+```
+kubectl -n kafka exec -ti kafkaclient-0 -- bin/kafka-console-producer.sh --broker-list my-cluster-kafka-brokers.kafka:9092 --topic test
+```
 
 
 This will launch an interative command prompt:
 1. Paste the Sample Message from above
 2. Type Ctrl+C to exit
 
-**Troubleshooting:**
+##### Troubleshooting the Connector
 Check the status of the connector to see if there were any errors:
-`localhost:8083/connectors/my-mongodb-connector/status`
+```
+localhost:8083/connectors/my-mongodb-connector/status
+```
 
 If there were no errors, you can check on MongoDB that the data is present. 
