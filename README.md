@@ -74,7 +74,7 @@ kubectl create -n kafka -f kafkaclient.yaml
 ```
 
 ## MongoDB Connector
-For this example, the [edsa14/mongo-kafka-connect](https://hub.docker.com/r/edsa14/mongo-kafka-connect) docker image containing the MongoDB Connector was created. For reference, the Dockerfile used to creat this image is included in the `examples` directory of this repository.
+For this example, the [edsa14/mongo-kafka-connect](https://hub.docker.com/r/edsa14/mongo-kafka-connect) docker image containing the MongoDB Connector was created. For reference, the Dockerfile used to create this image is in the `examples` directory.
 
 This examples uses the [mongodb/mongo-kafka](https://www.confluent.io/hub/mongodb/kafka-connect-mongodb) connector.
 
